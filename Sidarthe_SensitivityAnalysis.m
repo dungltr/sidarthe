@@ -150,19 +150,8 @@ plottato_fin = 0;
 for i=2:length(t)
     
     if (i>4/step) % Basic social distancing (awareness, schools closed)
-        alfa=0.4218;
-        gamma=0.285;
-        beta = 0.0057;
-        delta=0.0057;
+        [alfa, gamma, beta, delta] = Day4()
         if plottato == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            R0_primemisure=alfa/r1+beta*epsilon/(r1*r2)+gamma*zeta/(r1*r3)+delta*eta*epsilon/(r1*r2*r4)+delta*zeta*theta/(r1*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_primemisure = calculate1(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato = 1;
@@ -171,50 +160,17 @@ for i=2:length(t)
     
     if (i>12/step)
         % Screening limited to / focused on symptomatic subjects
-        epsilon=0.1425;
+        epsilon = Day12()
         if plottato1 == 0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            R0_primemisureeps=alfa/r1+beta*epsilon/(r1*r2)+gamma*zeta/(r1*r3)+delta*eta*epsilon/(r1*r2*r4)+delta*zeta*theta/(r1*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
-            R0_primemisure = calculate1(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
+            R0_primemisureeps = calculate1(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato1 = 1;
         end
     end
     
     if (i>22/step) % Social distancing: lockdown, mild effect
-        
-        alfa=0.36;
-        beta=0.005;
-        gamma=0.2;
-        delta=0.005;
-        
-        mu = 0.008;
-        nu = 0.015;
-        
-        zeta=0.034;
-        eta=0.034;
-        
-        lambda=0.08;
-        rho=0.0171;
-        kappa=0.0171;
-        xi=0.0171;
-        sigma=0.0171;
-        
+        [alfa, beta, gamma, delta, mu, nu, zeta, eta, lambda, rho, kappa, xi, sigma] = Day22()     
         if plottato_bis == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            R0_secondemisure=(alfa*r2*r3*r4+epsilon*beta*r3*r4+gamma*zeta*r2*r4+delta*eta*epsilon*r3+delta*zeta*theta*r2)/(r1*r2*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_secondemisure = calculate2(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato_bis = 1;
@@ -222,46 +178,17 @@ for i=2:length(t)
     end
     
     if (i>28/step) % Social distancing: lockdown, strong effect
-        
-        alfa=0.21;
-        gamma=0.11;
-        
+        [alfa, gamma] = Day28()
         if plottato_tris == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            R0_terzemisure=(alfa*r2*r3*r4+epsilon*beta*r3*r4+gamma*zeta*r2*r4+delta*eta*epsilon*r3+delta*zeta*theta*r2)/(r1*r2*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_terzemisure = calculate2(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato_tris = 1;
         end
     end
     
-    
     if (i>38/step) % Broader diagnosis campaign
-        
-        epsilon = 0.2;
-        rho=0.02;
-        kappa=0.02;
-        xi=0.02;
-        sigma=0.01;
-        
-        zeta=0.025;
-        eta=0.025;
-        
+        [epsilon, rho, kappa, xi, sigma, zeta, eta] = Day38()
         if plottato_quat == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            R0_quartemisure=(alfa*r2*r3*r4+epsilon*beta*r3*r4+gamma*zeta*r2*r4+delta*eta*epsilon*r3+delta*zeta*theta*r2)/(r1*r2*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_quartemisure = calculate2(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato_quat = 1;
@@ -277,45 +204,12 @@ for i=2:length(t)
         % Set the scaling factor to some value different from 1
         % for one or more parameters
         % to explore the effect of different parameter values
-        
-        alfa=0.2100*1;
-        beta=0.0050*1;
-        gamma=0.1100*1;
-        delta=0.0050*1;
-        
-        epsilon= 0.2000*1;
-        theta = 0.3705*1;
-        
-        zeta = 0.0250*1;
-        eta  = 0.0250*1;
-        
-        mu  = 0.008*1;
-        nu   = 0.0150*1;
-        
-        tau   = 0.0100*1;
-        
-        lambda   = 0.0800*1;
-        rho  = 0.0200*1;
-        kappa  = 0.0200*1;
-        xi  = 0.0200*1;
-        sigma = 0.0100*1;
-        
-        ki=0;
-        
-        if plottato_fin == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            R0_final=(alfa*r2*r3*r4+epsilon*beta*r3*r4+gamma*zeta*r2*r4+delta*eta*epsilon*r3+delta*zeta*theta*r2)/(r1*r2*r3*r4)
-            %}        
+        [alfa, beta, gamma, delta, epsilon, theta, zeta, eta, mu, nu, tau, lambda, rho, kappa, xi, sigma, ki] = Day50SensitivityAnalysis()
+        if plottato_fin == 0 % Compute the new R0     
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_final = calculate2(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato_fin = 1;
         end
-        
     end
     
     % Compute the system evolution

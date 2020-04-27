@@ -130,7 +130,7 @@ R0_iniziale = calculate1(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,thet
 
 % Time horizon
 %t=1:step:Orizzonte; % old value is Orizzonte
-timeLimit = 12;
+timeLimit = 39;
 t=1:step:timeLimit;
 
 % Vectors for time evolution of variables
@@ -185,21 +185,8 @@ plottato_quat = 0;
 for i=2:length(t)
     
     if (i>4/step) % Basic social distancing (awareness, schools closed)
-        alfa=0.4218;
-        gamma=0.285;
-        beta = 0.0057;
-        delta=0.0057;
-        [alfa_test, gamma_test, beta_test, delta_test] = Day4()
+        [alfa, gamma, beta, delta] = Day4()
         if plottato == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            %[r1_test,r2_test,r3_test,r4_test,r5_test] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
-            %R0_primemisure=alfa/r1+beta*epsilon/(r1*r2)+gamma*zeta/(r1*r3)+delta*eta*epsilon/(r1*r2*r4)+delta*zeta*theta/(r1*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_primemisure = calculate1(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato = 1;
@@ -208,17 +195,8 @@ for i=2:length(t)
     
     if (i>12/step)
         % Screening limited to / focused on symptomatic subjects
-        epsilon=0.1425;
+        epsilon = Day12()
         if plottato1 == 0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            %[r1_test,r2_test,r3_test,r4_test,r5_test] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
-            %R0_primemisureeps=alfa/r1+beta*epsilon/(r1*r2)+gamma*zeta/(r1*r3)+delta*eta*epsilon/(r1*r2*r4)+delta*zeta*theta/(r1*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_primemisureeps = calculate1(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato1 = 1;
@@ -226,34 +204,8 @@ for i=2:length(t)
     end
     
     if (i>22/step) % Social distancing: lockdown, mild effect
-        
-        alfa=0.36;
-        beta=0.005;
-        gamma=0.2;
-        delta=0.005;
-        
-        mu = 0.008;
-        nu = 0.015;
-        
-        zeta=0.034;
-        eta=0.034;
-        
-        lambda=0.08;
-        rho=0.0171;
-        kappa=0.0171;
-        xi=0.0171;
-        sigma=0.0171;
-        
+        [alfa, beta, gamma, delta, mu, nu, zeta, eta, lambda, rho, kappa, xi, sigma] = Day22()     
         if plottato_bis == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            %[r1_test,r2_test,r3_test,r4_test,r5_test] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
-            %R0_secondemisure=(alfa*r2*r3*r4+epsilon*beta*r3*r4+gamma*zeta*r2*r4+delta*eta*epsilon*r3+delta*zeta*theta*r2)/(r1*r2*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_secondemisure = calculate2(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato_bis = 1;
@@ -261,20 +213,8 @@ for i=2:length(t)
     end
     
     if (i>28/step) % Social distancing: lockdown, strong effect
-        
-        alfa=0.21;
-        gamma=0.11;
-        
+        [alfa, gamma] = Day28()
         if plottato_tris == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            %[r1_test,r2_test,r3_test,r4_test,r5_test] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
-            %R0_terzemisure=(alfa*r2*r3*r4+epsilon*beta*r3*r4+gamma*zeta*r2*r4+delta*eta*epsilon*r3+delta*zeta*theta*r2)/(r1*r2*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_terzemisure = calculate2(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato_tris = 1;
@@ -282,25 +222,8 @@ for i=2:length(t)
     end
     
     if (i>38/step) % Broader diagnosis campaign
-        
-        epsilon = 0.2;
-        rho=0.02;
-        kappa=0.02;
-        xi=0.02;
-        sigma=0.01;
-        
-        zeta=0.025;
-        eta=0.025;
-        
+        [epsilon, rho, kappa, xi, sigma, zeta, eta] = Day38()
         if plottato_quat == 0 % Compute the new R0
-            %{
-            r1=epsilon+zeta+lambda;
-            r2=eta+rho;
-            r3=theta+mu+kappa;
-            r4=nu+xi;
-            r5=sigma+tau;
-            %R0_quartemisure=(alfa*r2*r3*r4+epsilon*beta*r3*r4+gamma*zeta*r2*r4+delta*eta*epsilon*r3+delta*zeta*theta*r2)/(r1*r2*r3*r4)
-            %}
             [r1,r2,r3,r4,r5] = calParamater(epsilon,zeta,lambda,eta,rho,theta,mu,kappa,nu,xi,sigma,tau)
             R0_quartemisure = calculate2(alfa,r1,beta,epsilon,r2,gamma,zeta,r3,delta,eta,r4,theta)
             plottato_quat = 1;
@@ -369,6 +292,7 @@ Pbar1=Ebar/((epsilon*r3+(theta+mu)*zeta)*(I(1)+S(1)-Sbar-Ibar)/(r1*r3)+(theta+mu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Figure 1 %%%% PanoramicaEpidemiaRealevsPercepita.pdf
+%{
 figure
 plot(t,Infetti_reali,'b',t,I+D+A+R+T,'r',t,H,'g',t,E,'k')
 hold on
@@ -566,3 +490,4 @@ if plotPDF==1
     set(gcf, 'PaperSize', [16 10]); % dimension on x axis and y axis resp.
     print(gcf,'-dpdf', ['InfettiSintomatici_diagnosticati_terapiaintensiva.pdf'])
 end
+%}
